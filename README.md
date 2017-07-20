@@ -1,2 +1,2 @@
-# omt
-Online Management Tool for Social Media
+# OMT
+An Online Management Tool for Social Media
