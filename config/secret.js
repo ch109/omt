@@ -16,4 +16,3 @@ module.exports = () => {
   }
   return secret_config
 }
-// testing something
