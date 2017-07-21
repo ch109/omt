@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <%- include('partials/header') %>
+</head>
+<body>
+
+  <!-- Nav Bar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Header -->
+  <div class="section no-pad-bot" id="index-banner">
+    <header>
+      <div class="container">
+        <br>
+        <h1 class="header center orange-text">Profile</h1>
+      </div>
+    </header>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="section">
+
+      <ul class="collection">
+        <!-- LOCAL INFORMATION -->
+        <li class="collection-item avatar">
+          <i class="circle orange"><i class="fa fa-id-card-o fa-fw" aria-hidden="true"></i></i>
+          <span class="title">Local</span>
+          <% if(user.local.email) { %>
+            <p>E-Mail:&ensp;<%= user.local.email %></p>
+            <a href="/unlink/local" class="secondary-content waves-effect waves-orange btn-flat">Unlink</a>
+          <% } else { %>
+            <a href="/connect/local" class="secondary-content waves-effect waves-light amber darken-3 btn">Connect Local</a>
+          <% } %>
+        </li>
+        <!-- FACEBOOK INFORMATION -->
+        <li class="collection-item avatar">
+          <i class="circle blue darken-1"><span class="fa fa-facebook fa-fw"></span></i>
+          <span class="title">Facebook</span>
+          <% if(user.facebook.token) { %>
+            <p>Name:&ensp;<%= user.facebook.name %></p>
+            <p>E-Mail:&ensp;<%= user.facebook.email %></p>
+            <a href="/unlink/facebook" class="secondary-content waves-effect waves-orange btn-flat">Unlink</a>
+          <% } else { %>
+            <a href="/connect/facebook" class="secondary-content waves-effect waves-light amber darken-3 btn">Connect Facebook</a>
+          <% } %>
+        </li>
+        <!-- TWITTER INFORMATION -->
+        <li class="collection-item avatar">
+          <i class="circle light-blue lighten-1"><span class="fa fa-twitter fa-fw"></span></i>
+          <span class="title">Twitter</span>
+          <% if(user.twitter.token) { %>
+            <p>Username:&ensp;<%= user.twitter.username %></p>
+            <p>Display name:&ensp;<%= user.twitter.displayName %></p>
+            <a href="/unlink/twitter" class="secondary-content waves-effect waves-orange btn-flat">Unlink</a>
+          <% } else { %>
+            <a href="/connect/twitter" class="secondary-content waves-effect waves-light amber darken-3 btn">Connect Twitter</a>
+          <% } %>
+        </li>
+        <!-- GOOGLE INFORMATION -->
+        <li class="collection-item avatar">
+          <i class="circle red lighten-1"><span class="fa fa-google-plus fa-fw"></span></i>
+          <span class="title">Google</span>
+          <% if(user.google.token) { %>
+            <p>Name:&ensp;<%= user.google.name %></p>
+            <p>E-Mail:&ensp;<%= user.google.email %></p>
+            <a href="/unlink/google" class="secondary-content waves-effect waves-orange btn-flat">Unlink</a>
+          <% } else { %>
+            <a href="/connect/google" class="secondary-content waves-effect waves-light amber darken-3 btn">Connect Google</a>
+          <% } %>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+  <!-- DEBUG -->
+  <br /><br />
+  <div class="row">
+    <div class="col m1 l1"></div>
+    <div class="col s12 m10 l10">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Debug User</span>
+          <code><%= user %></code>
+        </div>
+      </div>
+    </div>
+    <div class="col m1 l1"></div>
+  </div>
+
+  <br /><br />
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

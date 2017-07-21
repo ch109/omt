@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <%- include('partials/header') %>
+</head>
+<body>
+
+  <!-- Nav Bar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Header -->
+  <div class="section no-pad-bot" id="index-banner">
+    <header>
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Login</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Use your local account or directly connect with a social network of your choice.</h5>
+      </div>
+      <div class="row center">
+        <a href="/login" class="btn-large waves-effect waves-light orange">Local Login</a>
+        <a href="/auth/facebook" class="btn-large waves-effect waves-light blue darken-1">
+          <span class="fa fa-facebook fa-lg fa-fw"></span>&emsp;Facebook
+        </a>
+        <a href="/auth/twitter" class="btn-large waves-effect waves-light light-blue lighten-1">
+          <span class="fa fa-twitter fa-lg fa-fw"></span>&emsp;Twitter
+        </a>
+        <a href="/auth/google" class="btn-large waves-effect waves-light red lighten-1">
+          <span class="fa fa-google-plus fa-lg fa-fw"></span>&emsp;Google
+        </a>
+      </div>
+      <br />
+      <div class="row center">
+        <h5 class="header col s12 light">Want a local account first? Sign up here.</h5>
+      </div>
+      <div class="row center">
+        <a href="/signup" class="btn-large waves-effect waves-light orange">Local Signup</a>
+      </div>
+      <br><br>
+    </div>
+    </header>
+  </div>
+
+  <!-- Content -->
+  <div class="container">
+    <div class="section">
+
+      <!-- Icon Section -->
+      <div class="row">
+
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Be the first!</h5>
+            <p class="light">
+              Be the first to witness what's happening in all your social networks.
+              How? Instead of looking at just one network at a time,
+              you'll be connected to all networks at once!
+            </p>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">call_merge</i></h2>
+            <h5 class="center">Write it once, send it everywhere.</h5>
+            <p class="light">
+              Tired of writing your messages for every social network seperately?
+              Why bother? With this tool, you'll write your message no more but
+              one time for everyone!
+            </p>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">I know someone who knows someone.</h5>
+            <p class="light">
+              You have contacts everywhere and it's a mess staying on top of things?
+              Here you can manage all your contacts with ease.
+            </p>
+          </div>
+        </div>
+
+        <div class="col s12 m6">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">call_missed</i></h2>
+            <h5 class="center">Redirect interesting things.</h5>
+            <p class="light">
+              You want to let somebody from one network know what a different person
+              from another network said? Sounds complicated? Actually it's not!
+              Just redirect the post or reply. It's as easy as pie!
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <br><br>
+
+  </div>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  </body>
+</html>

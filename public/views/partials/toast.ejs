@@ -1,0 +1,15 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    // Use Materialize to setup toast
+    function showToast(){
+      var $toastContent = $('<span>Please try again.</span>');
+      Materialize.toast($toastContent, 5000);
+    };
+    // Bind showToast() to id="error"
+    $('#error').bind('isVisible', showToast);
+    // Trigger showToast()
+    $('#error').show('slow', function(){
+      $(this).trigger('isVisible');
+    });
+  });
+</script>

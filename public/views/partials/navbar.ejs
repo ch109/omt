@@ -1,0 +1,53 @@
+<nav class="light-blue" role="navigation">
+  <div class="nav-wrapper container">
+    <a id="logo-container" href="/" class="brand-logo">
+      <span class="fa fa-handshake-o" aria-hidden="true"></span>&ensp;
+      social HUB
+    </a>
+    <!-- Desktop View -->
+    <% if(locked) { %>
+    <ul class="right hide-on-med-and-down tooltipped" data-position="bottom" data-delay="50" data-tooltip="Please log in first.">
+    <% } else { %>
+    <ul class="right hide-on-med-and-down">
+    <% } %>
+      <!-- Profile -->
+      <% if(nav=='profile') { %>
+        <li><a class="active">Profile</a></li>
+      <% } else { %>
+        <li><a href="/profile">Profile</a></li>
+      <% } %>
+      <!-- Dashboard -->
+      <% if(nav=='feeds') { %>
+        <li><a class="active">Feeds</a></li>
+      <% } else { %>
+        <li><a href="/feeds">Feeds</a></li>
+      <% } %>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+    <!-- Mobile View -->
+    <ul id="nav-mobile" class="side-nav">
+      <% if(locked) { %>
+        <li><a class="red-text text-accent-3"><i class="material-icons red-text text-accent-3">report_problem</i>&emsp;Please log in first.</a></li>
+        <li><a class="grey-text text-lighten-1">Profile</a></li>
+        <li><a class="grey-text text-lighten-1">Feeds</a></li>
+        <li><a class="grey-text text-lighten-1">Logout</a></li>
+      <% } else { %>
+        <!-- Profile -->
+        <% if(nav=='profile') { %>
+          <li><a class="active">Profile</a></li>
+        <% } else { %>
+          <li><a href="/profile">Profile</a></li>
+        <% } %>
+        <!-- Dashboard -->
+        <% if(nav=='feeds') { %>
+          <li><a class="active">Feeds</a></li>
+        <% } else { %>
+          <li><a href="/feeds">Feeds</a></li>
+        <% } %>
+        <li><a href="/logout">Logout</a></li>
+      <% } %>
+
+    </ul>
+    <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+  </div>
+</nav>

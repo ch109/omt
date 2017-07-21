@@ -1,0 +1,44 @@
+/* --- Materialize default --- */
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+
+/* --- profile.ejs --- */
+/* Text color: */
+.avatar p {
+  color: #616161;
+}
+.avatar .btn-flat {
+  color: #ff8f00;
+}
+
+/* --- feeds.ejs --- */
+/* Loader: */
+.preloader-background {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #eee;
+
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+/* Masonry grid: */
+.grid-item {
+  width: 400px;
+}
+.grid-item .card {
+  margin-right: 20px;
+}
+.feeds-container {
+  /*margin-left: 40px;*/
+  margin-left: 5%;
+}
+/*.grid-item--width2 { width: 800px; }*/

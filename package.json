@@ -1,0 +1,31 @@
+{
+  "name": "social_hub",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon -x npm run start",
+    "build-css": "node-sass --include-path scss scss/main.scss public/css/style.css",
+    "dev-sass": "nodemon -e scss -x \"npm run build-css & npm run start\"",
+    "build-materialize": "node-sass --include-path scss scss/materialize/materialize.scss public/css/materialize.css"
+  },
+  "dependencies": {
+    "bcrypt": "1.0.2",
+    "body-parser": "1.17.2",
+    "connect-flash": "0.1.1",
+    "cookie-parser": "1.4.3",
+    "ejs": "2.5.6",
+    "express": "4.15.3",
+    "express-session": "1.15.4",
+    "fb": "2.0.0",
+    "mongoose": "4.11.3",
+    "morgan": "1.8.2",
+    "node-sass": "4.5.3",
+    "passport": "0.3.2",
+    "passport-facebook": "2.1.1",
+    "passport-google-oauth": "1.0.0",
+    "passport-local": "1.0.0",
+    "passport-twitter": "1.0.4",
+    "serve-favicon": "2.4.3",
+    "twit": "2.2.9"
+  }
+}
