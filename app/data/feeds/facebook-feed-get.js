@@ -1,7 +1,6 @@
 const Fb = require('fb')
 const configAuth = require('../../../config/auth')
 
-// module.exports.getFeed = (user, count, callback) => {
 module.exports.getFeed = (user, count) => {
 
   /*

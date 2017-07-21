@@ -79,21 +79,21 @@ module.exports = (app, passport) => {
 
       // TODO: put in seperate script
       //  -> use just one promise here
-      // const fbPromise = fbFeedGet.getFeed(req.user, 5)
-      //   .then(fulfilled =>
-      //     fbCommsGet.getComms(req.user, fulfilled.facebook_feed)
-      //   )
-      // const twPromise = twFeedGet.getFeed(req.user, 5)
-      //   .then(fulfilled => {
-      //     // console.log(`DEBUG tw fulfilled = ${JSON.stringify(fulfilled.twitter_feed)}`)
-      //     return twCommsGet.getComms(req.user, fulfilled.twitter_feed)
-      //   })
-      // Promise.all(
-      //   [fbPromise, twPromise]
-      // )
+      const fbPromise = fbFeedGet.getFeed(req.user, 5)
+        .then(fulfilled =>
+          fbCommsGet.getComms(req.user, fulfilled.facebook_feed)
+        )
+      const twPromise = twFeedGet.getFeed(req.user, 5)
+        .then(fulfilled => {
+          // console.log(`DEBUG tw fulfilled = ${JSON.stringify(fulfilled.twitter_feed)}`)
+          return twCommsGet.getComms(req.user, fulfilled.twitter_feed)
+        })
+      Promise.all(
+        [fbPromise, twPromise]
+      )
 
       // NOTE: Testdata
-      Promise.resolve(testData)
+      // Promise.resolve(testData)
 
       .then(fulfilled_allFeeds => {
         // console.log(`\nDEBUG fulfilled_allFeeds =\n${JSON.stringify(fulfilled_allFeeds)}`)
@@ -102,7 +102,7 @@ module.exports = (app, passport) => {
         const twFeeds = twParseFeed(fulfilled_allFeeds)
 
         // console.log(`\nDEBUG fbFeeds =\n${JSON.stringify(fbFeeds)}`)
-        console.log(`\nDEBUG twFeeds =\n${JSON.stringify(twFeeds)}`)
+        // console.log(`\nDEBUG twFeeds =\n${JSON.stringify(twFeeds)}`)
 
         res.render(
           'feeds.ejs',

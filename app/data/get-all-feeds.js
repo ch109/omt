@@ -29,7 +29,7 @@ module.exports.getFeeds = (user, callback) => {
    */
   Promise.all([
     getTwitterFeedPromise(user, 5),
-    getFbFeedPromise(user, 5)
+    // getFbFeedPromise(user, 5)
     // NOTE: plug in promises for other social networks
   ])
   .then(

@@ -179,6 +179,17 @@ module.exports = (passport) => {
                       return done(null, user)
                     })
                   }
+                  // update token automatically if changed
+                  if (user.facebook.token !== token) {
+                    // DEBUG
+                    console.log(`\n\tCHANGING access_token
+                      \n\tfrom\t${user.facebook.token} \n\tto\t${token}\n`)
+                    user.facebook.token = token
+                    user.save((err) => {
+                      if (err) throw err
+                      return done(null, user)
+                    })
+                  }
                   // DEBUG
                   // console.log('found user\n'+JSON.stringify(user)+
                   //   '\nfb returned profile: \n'+JSON.stringify(profile))
@@ -273,6 +284,17 @@ module.exports = (passport) => {
                     return done(null, user)
                   })
                 }
+                // update token automatically if changed
+                if (user.twitter.token !== token) {
+                  // DEBUG
+                  console.log(`\n\tCHANGING access_token
+                    \n\tfrom\t${user.twitter.token} \n\tto\t${token}\n`)
+                  user.twitter.token = token
+                  user.save((err) => {
+                    if (err) throw err
+                    return done(null, user)
+                  })
+                }
                 // DEBUG
                 // console.log('found user\n'+JSON.stringify(user)+
                 //   '\nfb returned profile: \n'+JSON.stringify(profile))
@@ -354,6 +376,17 @@ module.exports = (passport) => {
                   user.google.token = token
                   user.google.name = profile.displayName
                   user.google.email = profile.emails[0].value
+                  user.save((err) => {
+                    if (err) throw err
+                    return done(null, user)
+                  })
+                }
+                // update token automatically if changed
+                if (user.google.token !== token) {
+                  // DEBUG
+                  console.log(`\n\tCHANGING access_token
+                    \n\tfrom\t${user.google.token} \n\tto\t${token}\n`)
+                  user.google.token = token
                   user.save((err) => {
                     if (err) throw err
                     return done(null, user)

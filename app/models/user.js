@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema(
        token: { type: String },
        email: { type: String },
        name: { type: String },
-       posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
+       // posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
      },
      twitter: {
        id: { type: String },
@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema(
        tokenSecret: { type: String },
        displayName: { type: String },
        username: { type: String },
-       posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
+      //  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
      },
      google: {
        id: { type: String },
@@ -38,14 +38,13 @@ const userSchema = mongoose.Schema(
    }
  )
 
-//TODO: async with promises
 //// methods
 // hash generation
 userSchema.methods.generateHash = (plaintextPassword) =>
   bcrypt.hashSync(plaintextPassword, 8)
   // bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 
-// check if password valid
+// check if password is valid
 userSchema.methods.validPassword = (plaintextPassword, currentUser) => {
   if(bcrypt.compareSync(plaintextPassword, currentUser.local.password))
     return true
@@ -53,5 +52,4 @@ userSchema.methods.validPassword = (plaintextPassword, currentUser) => {
 }
   // bcrypt.compareSync(password, this.local.password)
 
-// create and export model
 module.exports = mongoose.model('User', userSchema)
