@@ -30,3 +30,4 @@ node_modules/
 # sensitive information
 config/auth.js
 config/database.js
+app/data/test_data/

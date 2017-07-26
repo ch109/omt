@@ -1,3 +1,6 @@
+// TODO: This script should be used to gather all feeds.
+//    Sadly, for the moment it isn't.
+
 const twitterFeedGet = require('./feeds/twitter-feed-get')
 const fbFeedGet = require('./feeds/facebook-feed-get')
 
@@ -42,7 +45,6 @@ module.exports.getFeeds = (user, callback) => {
     // {
     //   const jsonStringData = JSON.stringify(fulfilledArr)
     //   console.log('Saved all feeds: %s', jsonStringData)
-    //   return callback(jsonStringData)
     // }
   )
   .catch(error => {
@@ -52,6 +54,6 @@ module.exports.getFeeds = (user, callback) => {
   /*
    * DEBUG: Use test data
    */
-  // return callback(JSON.stringify(testData))
+  // return 
 
 }

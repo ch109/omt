@@ -27,12 +27,15 @@ require('./config/passport')(passport)
 const configDB = require('./config/database')
 mongoose.connect(configDB.database)
 
-
-//// express
+//// EXPRESS
 // log every request to the console
 app.use(morgan('dev'))
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+// // body-parser settings
+// parse application/x-www-form-urlencoded (default)
+// app.use(bodyParser.urlencoded({ extended: false })) // use querystring library
+// support encoded bodies
+// NOTE: does not handle multipart bodies!
+app.use(bodyParser.urlencoded({ extended: true })) // use qs library
 // read cookies (needed for auth)
 app.use(cookieParser())
 // get information from html forms
@@ -43,7 +46,7 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/public/views'))
 // static files location
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use('/static', express.static(path.join(__dirname, 'node_modules')))
 
 //// passport
 // session secret

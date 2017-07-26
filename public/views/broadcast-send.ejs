@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <%- include('partials/header') %>
+</head>
+
+<body>
+  
+  <!--
+    TODO: This site is opsolete. Delete!
+  -->
+
+  <!-- Nav Bar -->
+  <%- include('partials/navbar') %>
+
+  <!-- Header -->
+  <div class="section no-pad-bot" id="index-banner">
+    <header>
+      <div class="container">
+        <br>
+        <h3 class="header orange-text">Cangrats!</h3>
+      </div>
+    </header>
+  </div>
+
+  <!-- Content -->
+  <div class="feeds-container">
+    <div class="section">
+
+      <div class="row">
+        <h3>Your broadcast is on it's way.</h3>
+
+        <!-- DEBUG -->
+        <br />
+        <div class="col m1 l1"></div>
+        <div class="col s12 m10 l10">
+          <div class="card green accent-3">
+            <div class="card-content">
+              <span class="card-title">msg =</span>
+              <code><%= JSON.stringify(msg) %></code>
+            </div>
+          </div>
+        </div>
+        <div class="col m1 l1"></div>
+
+
+      </div><!-- row -->
+
+    </div><!-- section -->
+  </div><!-- feeds-container -->
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

@@ -2,18 +2,18 @@
  * * *  ROUTES DEFINITION
  * * */
 
-// const getAllFeeds = require('./data/get-all-feeds')
-// const parseFeed = require('./data/feeds/parse-feed')
-
+// Dashboard
 const twFeedGet = require('./data/feeds/twitter-feed-get')
 const twCommsGet = require('./data/feeds/twitter-comments')
 const twParseFeed = require('./data/feeds/twitter-parse')
 const fbFeedGet = require('./data/feeds/facebook-feed-get')
 const fbCommsGet = require('./data/feeds/facebook-comments')
 const fbParseFeed = require('./data/feeds/facebook-parse')
-
-// Testdata
+// Dashboard testdata
 const testData = require('./data/test_data/all_feeds')
+
+// Broadcast
+const broadcastController = require('./data/send/controller')
 
 
 module.exports = (app, passport) => {
@@ -55,6 +55,8 @@ module.exports = (app, passport) => {
 /*
  * Protected site sections
  */
+// TODO:
+//  - "user: req.user" is not neccessary for every page
 
   //// profile
   app.get(
@@ -71,14 +73,15 @@ module.exports = (app, passport) => {
       }
     ))
 
-  //// feeds
+  //// feeds aka dashboard
   app.get(
     '/feeds',
     isLoggedIn,
     (req, res) => {
 
-      // TODO: put in seperate script
-      //  -> use just one promise here
+      // TODO: put in seperate script 
+      // and use just one promise here
+      //    use 'get-all-feeds.js'
       const fbPromise = fbFeedGet.getFeed(req.user, 5)
         .then(fulfilled =>
           fbCommsGet.getComms(req.user, fulfilled.facebook_feed)
@@ -92,15 +95,18 @@ module.exports = (app, passport) => {
         [fbPromise, twPromise]
       )
 
+      //DEBUG
       // NOTE: Testdata
       // Promise.resolve(testData)
 
       .then(fulfilled_allFeeds => {
+        //DEBUG
         // console.log(`\nDEBUG fulfilled_allFeeds =\n${JSON.stringify(fulfilled_allFeeds)}`)
 
         const fbFeeds = fbParseFeed(fulfilled_allFeeds)
         const twFeeds = twParseFeed(fulfilled_allFeeds)
 
+        //DEBUG
         // console.log(`\nDEBUG fbFeeds =\n${JSON.stringify(fbFeeds)}`)
         // console.log(`\nDEBUG twFeeds =\n${JSON.stringify(twFeeds)}`)
 
@@ -108,7 +114,7 @@ module.exports = (app, passport) => {
           'feeds.ejs',
           {
             user: req.user,
-            title: 'All Feeds',
+            title: 'Dashboard',
             nav: 'feeds',
             locked: false,
 
@@ -120,6 +126,47 @@ module.exports = (app, passport) => {
       .catch(err => console.error(err))
     }
   )//get
+
+  //// broadcast
+  app.get(
+    '/broadcast',
+    isLoggedIn, // middleware
+    (req, res) => res.render(
+      'broadcast.ejs',
+      {
+        user: req.user,
+        title: 'Make a broadcast',
+        nav: 'broadcast',
+        locked: false,
+        message_info: req.flash('info-msg-send'),
+        message_error: req.flash('info-msg-error')
+      }
+    ))
+
+  //// send broadcast
+  app.post(
+    '/broadcast-send',
+    (req, res) => {    
+      //DEBUG
+      console.log(`req.body = ${JSON.stringify(req.body)}`)
+      
+      const broadcastPromise = 
+        broadcastController.distribute(req.user, req.body)
+        
+      broadcastPromise.then(fulfilled => {
+        //DEBUG
+        console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)
+        // TODO: interpret fulfilled-Obj
+        req.flash('info-msg-send', 'Success!')
+        res.redirect('/broadcast')
+      }).catch(err => {
+        //DEBUG
+        console.error(err)
+        req.flash('info-msg-send', 'There was an error.')
+        res.redirect('/broadcast')
+      })      
+    }
+  )
 
   /*
    * Authentication

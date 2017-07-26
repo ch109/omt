@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <%- include('partials/header') %>
+
+  <!-- Include Quill stylesheet -->
+  <link href="static/quill/dist/quill.snow.css" rel="stylesheet">
+  <!-- Quill Emoji Selector (quill-emoji) stylesheet -->
+  <link rel="stylesheet" type="text/css" href="static/quill-emoji/dist/quill-emoji.css">
+  <!-- Quill custom styles -->
+  <style type="text/css">
+    .ap {
+      font-size: 0px;
+    }
+    .emoji {
+      height:20px;
+      margin-bottom: -5px;
+    }
+    #quill-char-counter {
+      color: #aaa;
+      text-align: right;
+    }
+    .checkbox {
+      margin-right: 35px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Nav Bar -->
+  <%- include('partials/navbar') %>
+  
+  <!-- Message: User has successfully sent broadcast -->
+  <% if (message_info.length > 0) { %>
+  <div class="row">
+    <div class="row">
+      <div class="col s12 m8">
+        <div class="card-panel green accent-2">
+          <p>
+            Your message:<br />
+            <%= message_info %><br />
+            has successfully been broadcasted.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+  <!-- Message: Error while sending broadcast -->
+  <% if (message_error.length > 0) { %>
+  <div class="row center">
+    <div class="row">
+      <div class="col s12 m8">
+        <div class="card-panel red accent-3">
+          <%= message_error %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Header -->
+  <div class="section no-pad-bot" id="index-banner">
+    <header>
+      <div class="container">
+        <br>
+        <h3 class="header orange-text">Make your broadcast</h3>
+      </div>
+    </header>
+  </div>
+
+  <!-- Content -->
+  <div class="feeds-container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s10">
+
+          <form action="/broadcast-send" method="post">
+            <h5>Choose platforms</h5>
+            <!-- TODO: 
+                  - show only platforms which are 
+                    connected to this account via ejs
+                  - if no platform is checked disable send-button
+            -->
+            <p>
+              <input type="checkbox" id="facebook" name="facebook" value="y"/>
+              <label class="checkbox" for="facebook">Facebook</label>
+              <input type="checkbox" id="twitter" name="twitter" value="y"/>
+              <label class="checkbox" for="twitter">Twitter</label>
+              <input type="checkbox" id="googlep" name="googlep" value="y"/>
+              <label class="checkbox" for="googlep">Google+</label>
+            </p>
+            <br />
+            <h5>Write your message</h5>
+            <label for="editor">Your message</label>
+            <input name="editor" type="hidden">
+            <div id="quill-editor"></div>
+            <div id="quill-char-counter">0 characters</div>
+            <br />
+          <!-- NOTE: 
+                  'pody-parser' does not handle multipart bodies!
+                  Therefore the file upload feature is disabled for now.
+            
+            <h5>Attach a file</h5>
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>File</span>
+                <input type="file" name="file" id="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" for="file">
+              </div>
+            </div>
+            <br />
+          -->
+            <button class="btn waves-effect waves-light" type="submit">
+              Submit <i class="material-icons right">send</i>
+            </button>
+          </form>
+
+        </div>
+      </div><!-- row -->
+
+    </div><!-- section -->
+  </div><!-- feeds-container -->
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- Quill scripts -->
+  <script src="static/quill/dist/quill.js"></script>
+  <script src="static/fuse.js/src/fuse.js"></script>
+  <!-- Quill Emoji Selector script -->
+  <script src="static/quill-emoji/dist/quill-emoji.js"></script>
+  <!-- Twitter-Text library -->
+  <script src="static/twitter-text/twitter-text.js"></script>
+
+  <!-- Quill customize -->
+  <script type="text/javascript">
+
+    // character and word counter custom module
+    var Counter = function(quill, options) {
+      this.quill = quill;
+      this.options = options;
+      var container = document.querySelector(options.container);
+      var _this = this;
+      quill.on('text-change', function() {
+        var length = _this.calculate();
+        container.innerHTML = length-1 + ' ' + options.unit + 's';
+      });
+    };
+    Counter.prototype.calculate = function() {
+      var text = this.quill.getText();
+      return twttr.txt.getTweetLength(text);
+    };
+    Quill.register('modules/counter', Counter);
+
+    // init Quill
+    var quill = new Quill('#quill-editor', {
+      modules: {
+        toolbar: false,
+        counter: {
+          container: '#quill-char-counter',
+          unit: 'character'
+        },
+        short_name_emoji: true,
+        textarea_emoji: true
+      },
+      formats: [],
+      placeholder: 'What\'s up?',
+      theme: 'snow'
+    });
+
+    // Populate hidden form on submit
+    var form = document.querySelector('form');
+    form.onsubmit = function() {    
+      var msg = document.querySelector('input[name=editor]');
+      msg.value = JSON.stringify(quill.getContents());
+    };
+
+  </script>
+  
+</body>
+</html>
