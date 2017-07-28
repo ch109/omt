@@ -1,4 +1,4 @@
-const getRootArr = require('./all-parse')
+const getRootArr = require('../shared/parser')
 
 // NOTE: just for facebook feeds
 const parseFeed = (allFeeds) => {

@@ -1,7 +1,7 @@
 const Twit = require('twit')
-const configAuth = require('../../../config/auth')
+const configAuth = require('../../../../config/auth')
 
-module.exports.getComms = (user, postsArr) => {
+module.exports.getComments = (user, postsArr) => {
 
   /*
    * Module configuration

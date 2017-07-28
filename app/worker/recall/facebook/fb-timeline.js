@@ -1,6 +1,6 @@
 const Fb = require('fb')
 
-module.exports.getFeed = (user, count) => {
+module.exports.getTimeline = (user, count) => {
 
   /*
    * Module configuration
