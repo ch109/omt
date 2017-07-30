@@ -3,15 +3,8 @@
  * * */
 
 // Dashboard
-const twFeedGet = require('./worker/recall/twitter/tw-timeline')
-const twCommsGet = require('./worker/recall/twitter/tw-comments')
-const twParseFeed = require('./worker/recall/twitter/tw-parser')
-const fbFeedGet = require('./worker/recall/facebook/fb-timeline')
-const fbCommsGet = require('./worker/recall/facebook/fb-comments')
-const fbParseFeed = require('./worker/recall/facebook/fb-parser')
-//
 const dashboardReceiver = require('./worker/recall/receiver')
-
+const getActivePlatforms = require('./worker/info/user-platforms')
 // Broadcast
 const broadcastController = require('./worker/send/controller')
 
@@ -77,7 +70,7 @@ module.exports = (app, passport) => {
   app.get(
     '/feeds',
     isLoggedIn,
-    (req, res) => {    
+    (req, res) => {     
       // init promise
       const dashboardPromise =
         dashboardReceiver.receive(req.user)
@@ -93,8 +86,8 @@ module.exports = (app, passport) => {
             nav: 'feeds',
             locked: false,
 
-            fb: fulfilled.fb.facebook_feed,
-            tw: fulfilled.tw.twitter_feed
+            fb: fulfilled.hasOwnProperty('fb') ? fulfilled.fb.facebook_feed : undefined,
+            tw: fulfilled.hasOwnProperty('tw') ? fulfilled.tw.twitter_feed : undefined
           }
         )      
       }).catch(
@@ -110,7 +103,8 @@ module.exports = (app, passport) => {
     (req, res) => res.render(
       'broadcast.ejs',
       {
-        user: req.user,
+        // user: req.user,
+        platforms: getActivePlatforms(req.user),
         title: 'Make a broadcast',
         nav: 'broadcast',
         locked: false,

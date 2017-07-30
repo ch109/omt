@@ -32,8 +32,12 @@ const parseFeed = (allFeeds) => {
    * Call
    */
   const posts = getRootArr(allFeeds, 'fb_posts')
+  // DEBUG
+  // console.log(`fb-parser.js: posts = ${JSON.stringify(posts)}`)
   const comms = getRootArr(allFeeds, 'fb_comments')
-
+  // DEBUG
+  // console.log(`fb-parser.js: comms = ${JSON.stringify(comms)}`)
+  
   const merged = compareMerge(posts, comms)
 
   return merged

@@ -80,18 +80,26 @@
           <form action="/broadcast-send" method="post">
             <h5>Choose platforms</h5>
             <!-- TODO: 
-                  - show only platforms which are 
-                    connected to this account via ejs
                   - if no platform is checked disable send-button
             -->
-            <p>
-              <input type="checkbox" id="facebook" name="facebook" value="y"/>
-              <label class="checkbox" for="facebook">Facebook</label>
-              <input type="checkbox" id="twitter" name="twitter" value="y"/>
-              <label class="checkbox" for="twitter">Twitter</label>
-              <input type="checkbox" id="googlep" name="googlep" value="y"/>
-              <label class="checkbox" for="googlep">Google+</label>
-            </p>
+            <div id="platform-checkboxes">
+              <% if (platforms.length>0) { %>
+                <% if (platforms.includes('facebook')) { %>
+                  <input type="checkbox" id="facebook" name="facebook" value="y"/>
+                  <label class="checkbox" for="facebook">Facebook</label>
+                <% } %>
+                <% if (platforms.includes('twitter')) { %>
+                  <input type="checkbox" id="twitter" name="twitter" value="y"/>
+                  <label class="checkbox" for="twitter">Twitter</label>
+                <% } %>
+                <% if (platforms.includes('googlep')) { %>
+                  <input type="checkbox" id="googlep" name="googlep" value="y"/>
+                  <label class="checkbox" for="googlep">Google+</label>
+                <% } %>
+              <% } else { %>
+                No social media platforms were found.
+              <% } %>
+            </div>
             <br />
             <h5>Write your message</h5>
             <label for="editor">Your message</label>
@@ -115,7 +123,7 @@
             </div>
             <br />
           -->
-            <button class="btn waves-effect waves-light" type="submit">
+            <button class="btn waves-effect waves-light disabled" type="submit">
               Submit <i class="material-icons right">send</i>
             </button>
           </form>
@@ -178,8 +186,33 @@
     form.onsubmit = function() {    
       var msg = document.querySelector('input[name=editor]');
       msg.value = JSON.stringify(quill.getContents());
-    };
-
+    };    
+  </script>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+      
+      $('div#platform-checkboxes').change(function() {
+        var inputArr = [];
+        $('div#platform-checkboxes').find('input')
+          .each(function() {
+            if($(this).prop('checked')) {
+              inputArr.push($(this));        
+            }
+          });
+        if(inputArr.length>0) {
+          if($('button.btn').hasClass('disabled')) {                
+            $('button.btn').removeClass('disabled');
+          }          
+        } else {
+          if(! $('button.btn').hasClass('disabled')) {                
+            $('button.btn').addClass('disabled');
+          }
+        }
+      });
+      
+    });
+    
   </script>
   
 </body>

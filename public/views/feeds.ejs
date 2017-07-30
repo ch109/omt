@@ -7,12 +7,18 @@
   /* make emoticons smaller */
   .emoji {
     border: 0;
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    /*width: 16px;*/
+    height: 18px;
+    /*height: 16px;*/
     margin-bottom: -2px;
   }
 </style>
 <body>
+  
+  <!-- TODO: 
+        use grid system
+  -->
 
   <!-- Nav Bar -->
   <%- include('partials/navbar') %>
@@ -50,108 +56,113 @@
       <!-- FEED LOOPS -->
 
       <!-- tw loop -->
-      <% tw.forEach(tweet => { %>
-        <!-- <div class="row"> -->
-          <div class="grid-item">
-          <!-- <div class="col m1 l1"></div> -->
-          <!-- <div class="col s12 m10 l10"> -->
-            <div class="card">
-              <div class="card-content">
-                <span class="card-title">Twitter&mdash;<%= tweet.post.created_at %></span>
-                <div class="section">
-                  <p>Tweet: <%= tweet.post.text %></p>
-                  <% if(tweet.post.in_reply_to_screen_name==null) { %>
-                    <p>Postet in user timeline.</p>
-                  <% } else { %>
-                    <p>As reply to: @<%= tweet.post.in_reply_to_screen_name %></p>
-                  <% } %>
-                  <% if(tweet.post.entities.user_mentions.length>0) { %>
-                    <p>Origin:</p>
-                    <% tweet.post.entities.user_mentions.forEach(m => { %>
-                      <p>Username: @<%= m.screen_name %>, Name: <%= m.name %></p>
-                    <% }) %>
-                  <% } %>
-                </div>
-              </div>
-              <% if(tweet.reply) { %>
-                <div class="card-content grey lighten-4">
-                  <span class="card-title">Replies</span>
-                  <% tweet.reply.forEach((comm, i) => { %>
-                    <% if(i > 0) { %>
-                      <div class="divider"></div>
+      <% if(tw) { %>
+        <% tw.forEach(tweet => { %>
+          <!-- <div class="row"> -->
+            <div class="grid-item">
+            <!-- <div class="col m1 l1"></div> -->
+            <!-- <div class="col s12 m10 l10"> -->
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">Twitter&mdash;<%= tweet.post.created_at %></span>
+                  <div class="section">
+                    <p>Tweet: <%= tweet.post.text %></p>
+                    <% if(tweet.post.in_reply_to_screen_name==null) { %>
+                      <p>Postet in user timeline.</p>
+                    <% } else { %>
+                      <p>As reply to: @<%= tweet.post.in_reply_to_screen_name %></p>
                     <% } %>
-                    <div class="section">
-                      <p>Message: <%= comm.text %></p>
-                      <p>From: <%= comm.user.name %>, @<%= comm.user.screen_name %></p>
-                      <p>As reply to: <%= comm.in_reply_to_screen_name %></p>
-                      <p>Date: <%= comm.created_at %></p>
-                    </div>
-                  <% }) %>
+                    <% if(tweet.post.entities.user_mentions.length>0) { %>
+                      <p>Origin:</p>
+                      <% tweet.post.entities.user_mentions.forEach(m => { %>
+                        <p>Username: @<%= m.screen_name %>, Name: <%= m.name %></p>
+                      <% }) %>
+                    <% } %>
+                  </div>
                 </div>
-              <% } %>
+                <% if(tweet.reply) { %>
+                  <div class="card-content grey lighten-4">
+                    <span class="card-title">Replies</span>
+                    <% tweet.reply.forEach((comm, i) => { %>
+                      <% if(i > 0) { %>
+                        <div class="divider"></div>
+                      <% } %>
+                      <div class="section">
+                        <p>Message: <%= comm.text %></p>
+                        <p>From: <%= comm.user.name %>, @<%= comm.user.screen_name %></p>
+                        <p>As reply to: <%= comm.in_reply_to_screen_name %></p>
+                        <p>Date: <%= comm.created_at %></p>
+                      </div>
+                    <% }) %>
+                  </div>
+                <% } %>
 
-              <div class="card-action">
-                <a href="#">Answer</a>
-                <a href="#">Retweet</a>
-                <a href="#">Like</a>
-                <a href="#">Redirect</a>
+                <div class="card-action">
+                  <a href="#">Answer</a>
+                  <a href="#">Retweet</a>
+                  <a href="#">Like</a>
+                  <a href="#">Redirect</a>
+                </div>
               </div>
+            <!-- </div> -->
+            <!-- <div class="col m1 l1"></div> -->
             </div>
           <!-- </div> -->
-          <!-- <div class="col m1 l1"></div> -->
-          </div>
-        <!-- </div> -->
-      <% }) %>
+        <% }) %><!-- tw.forEach -->
+      <% } %><!-- if(tw) -->
 
       <!-- fb loop -->
-      <% fb.forEach(post => { %>
-        <!-- <div class="row"> -->
-          <div class="grid-item">
-          <!-- <div class="col m1 l1"></div> -->
-          <!-- <div class="col s12 m10 l10"> -->
-            <div class="card">
-              <div class="card-content">
-                <span class="card-title">Facebook&mdash;<%= post.created_time %></span>
-                <div class="section">
-                  <% if(post.message) { %>
-                    <p>Message: <%= post.message %></p>
-                  <% } %>
-                  <% if(post.story) { %>
-                    <p>Story: <%= post.story %></p>
-                  <% } %>
-                </div>
-              </div>
-              <% if(post.comments) { %>
-                <div class="card-content grey lighten-4">
-                  <span class="card-title">Comments</span>
-                  <% post.comments.data.forEach((comm, i) => { %>
-                    <% if(i > 0) { %>
-                      <div class="divider"></div>
+      <% if(fb) { %>
+        <% fb.forEach(post => { %>
+          <!-- <div class="row"> -->
+            <div class="grid-item">
+            <!-- <div class="col m1 l1"></div> -->
+            <!-- <div class="col s12 m10 l10"> -->
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">Facebook&mdash;<%= post.created_time %></span>
+                  <div class="section">
+                    <% if(post.message) { %>
+                      <p>Message: <%= post.message %></p>
                     <% } %>
-                    <div class="section">
-                    <p>Message: <%= comm.message %></p>
-                    <p>From: <%= comm.from.name %></p>
-                    <p>Date: <%= comm.created_time %></p>
-                    </div>
-                  <% }) %>
+                    <% if(post.story) { %>
+                      <p>Story: <%= post.story %></p>
+                    <% } %>
+                  </div>
                 </div>
-              <% } %>
-              <div class="card-action">
-                <a href="#">Comment</a>
-                <a href="#">Share</a>
-                <a href="#">Like</a>
-                <a href="#">Redirect</a>
+                <% if(post.comments) { %>
+                  <div class="card-content grey lighten-4">
+                    <span class="card-title">Comments</span>
+                    <% post.comments.data.forEach((comm, i) => { %>
+                      <% if(i > 0) { %>
+                        <div class="divider"></div>
+                      <% } %>
+                      <div class="section">
+                      <p>Message: <%= comm.message %></p>
+                      <p>From: <%= comm.from.name %></p>
+                      <p>Date: <%= comm.created_time %></p>
+                      </div>
+                    <% }) %>
+                  </div>
+                <% } %>
+                <div class="card-action">
+                  <a href="#">Comment</a>
+                  <a href="#">Share</a>
+                  <a href="#">Like</a>
+                  <a href="#">Redirect</a>
+                </div>
               </div>
+            <!-- </div> -->
+            <!-- <div class="col m1 l1"></div> -->
             </div>
           <!-- </div> -->
-          <!-- <div class="col m1 l1"></div> -->
-          </div>
-        <!-- </div> -->
-      <% }) %>
+        <% }) %><!-- fb.forEach -->
+      <% } %><!-- if(fb) -->
 
     </div><!-- grid -->
   </div><!-- section -->
 </div><!-- feeds-container -->
+
 
   <!-- <div class="container"> -->
 
@@ -234,7 +245,7 @@
     });
   </script>
 
-  <!-- MASONRY -->
+  <!-- MASONRY --
   <script src="js/masonry/masonry.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function(){
@@ -244,7 +255,7 @@
         columnWidth: 400
       });
     });
-  </script>
+  </script> -->
 
   <!-- TWEMOJI -->
   <script src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.3.0"></script>
