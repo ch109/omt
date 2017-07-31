@@ -1,7 +1,7 @@
 const Twit = require('twit')
-const configAuth = require('../../../config/auth')
+const configAuth = require('../../../../config/auth')
 
-module.exports.getFeed = (user, count) => {
+module.exports.getTimeline = (user, count) => {
 
   /*
    * Module configuration

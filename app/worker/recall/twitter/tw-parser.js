@@ -1,4 +1,4 @@
-const getRootArr = require('./all-parse')
+const getRootArr = require('../shared/parser')
 
 // NOTE: just for twitter feeds
 const parseFeed = (allFeeds) => {

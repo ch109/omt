@@ -3,17 +3,10 @@
  * * */
 
 // Dashboard
-const twFeedGet = require('./data/feeds/twitter-feed-get')
-const twCommsGet = require('./data/feeds/twitter-comments')
-const twParseFeed = require('./data/feeds/twitter-parse')
-const fbFeedGet = require('./data/feeds/facebook-feed-get')
-const fbCommsGet = require('./data/feeds/facebook-comments')
-const fbParseFeed = require('./data/feeds/facebook-parse')
-// Dashboard testdata
-const testData = require('./data/test_data/all_feeds')
-
+const dashboardReceiver = require('./worker/recall/receiver')
+const getActivePlatforms = require('./worker/info/user-platforms')
 // Broadcast
-const broadcastController = require('./data/send/controller')
+const broadcastController = require('./worker/send/controller')
 
 
 module.exports = (app, passport) => {
@@ -73,43 +66,18 @@ module.exports = (app, passport) => {
       }
     ))
 
-  //// feeds aka dashboard
+  //// dashboard
   app.get(
     '/feeds',
     isLoggedIn,
-    (req, res) => {
-
-      // TODO: put in seperate script 
-      // and use just one promise here
-      //    use 'get-all-feeds.js'
-      const fbPromise = fbFeedGet.getFeed(req.user, 5)
-        .then(fulfilled =>
-          fbCommsGet.getComms(req.user, fulfilled.facebook_feed)
-        )
-      const twPromise = twFeedGet.getFeed(req.user, 5)
-        .then(fulfilled => {
-          // console.log(`DEBUG tw fulfilled = ${JSON.stringify(fulfilled.twitter_feed)}`)
-          return twCommsGet.getComms(req.user, fulfilled.twitter_feed)
-        })
-      Promise.all(
-        [fbPromise, twPromise]
-      )
-
-      //DEBUG
-      // NOTE: Testdata
-      // Promise.resolve(testData)
-
-      .then(fulfilled_allFeeds => {
-        //DEBUG
-        // console.log(`\nDEBUG fulfilled_allFeeds =\n${JSON.stringify(fulfilled_allFeeds)}`)
-
-        const fbFeeds = fbParseFeed(fulfilled_allFeeds)
-        const twFeeds = twParseFeed(fulfilled_allFeeds)
-
-        //DEBUG
-        // console.log(`\nDEBUG fbFeeds =\n${JSON.stringify(fbFeeds)}`)
-        // console.log(`\nDEBUG twFeeds =\n${JSON.stringify(twFeeds)}`)
-
+    (req, res) => {     
+      // init promise
+      const dashboardPromise =
+        dashboardReceiver.receive(req.user)
+      // call promise
+      dashboardPromise.then(fulfilled => {
+        // DEBUG
+        // console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)        
         res.render(
           'feeds.ejs',
           {
@@ -118,14 +86,15 @@ module.exports = (app, passport) => {
             nav: 'feeds',
             locked: false,
 
-            fb: fbFeeds.facebook_feed,
-            tw: twFeeds.twitter_feed
+            fb: fulfilled.hasOwnProperty('fb') ? fulfilled.fb.facebook_feed : undefined,
+            tw: fulfilled.hasOwnProperty('tw') ? fulfilled.tw.twitter_feed : undefined
           }
-        )
-      })
-      .catch(err => console.error(err))
-    }
-  )//get
+        )      
+      }).catch(
+        // TODO: render error site
+        err => console.error(err)
+      )
+    })
 
   //// broadcast
   app.get(
@@ -134,7 +103,8 @@ module.exports = (app, passport) => {
     (req, res) => res.render(
       'broadcast.ejs',
       {
-        user: req.user,
+        // user: req.user,
+        platforms: getActivePlatforms(req.user),
         title: 'Make a broadcast',
         nav: 'broadcast',
         locked: false,
@@ -149,14 +119,14 @@ module.exports = (app, passport) => {
     (req, res) => {    
       //DEBUG
       console.log(`req.body = ${JSON.stringify(req.body)}`)
-      
+      // init promise
       const broadcastPromise = 
         broadcastController.distribute(req.user, req.body)
-        
+      // call promise  
       broadcastPromise.then(fulfilled => {
         //DEBUG
         console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)
-        // TODO: interpret fulfilled-Obj
+        // TODO: interpret fulfilled-obj
         req.flash('info-msg-send', 'Success!')
         res.redirect('/broadcast')
       }).catch(err => {

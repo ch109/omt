@@ -42,7 +42,6 @@ const userSchema = mongoose.Schema(
 // hash generation
 userSchema.methods.generateHash = (plaintextPassword) =>
   bcrypt.hashSync(plaintextPassword, 8)
-  // bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 
 // check if password is valid
 userSchema.methods.validPassword = (plaintextPassword, currentUser) => {
@@ -50,6 +49,5 @@ userSchema.methods.validPassword = (plaintextPassword, currentUser) => {
     return true
   else return false
 }
-  // bcrypt.compareSync(password, this.local.password)
 
 module.exports = mongoose.model('User', userSchema)

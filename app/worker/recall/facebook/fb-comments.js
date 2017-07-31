@@ -1,6 +1,6 @@
 const Fb = require('fb')
 
-module.exports.getComms = (user, postsArr) => {
+module.exports.getComments = (user, postsArr) => {
 
   /*
    * Module configuration

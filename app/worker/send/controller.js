@@ -59,7 +59,7 @@ module.exports.distribute = (user, postBody) => {
   // distribute message to platforms
   if(message===undefined||message===null||message==={}||message==='')
     return Promise.resolve({ success: false, flash: 'no message specified' })
-  if(platformsArr.length<=0||platformsArr===undefined||platformsArr===null) 
+  if(platformsArr.length<=0) 
     return Promise.resolve({ success: false, flash: 'no platforms specified' })
   if(platformsArr.length===1) {
     const platformName = platformsArr[0]
@@ -70,10 +70,10 @@ module.exports.distribute = (user, postBody) => {
   }
   if(platformsArr.length>1) {
     let platformsPromiseArr = []
-    platformsArr.forEach((c, i, a) => {
-      const platformPromise = getPlatformPromise(c)
+    platformsArr.forEach(platformName => {
+      const platformPromise = getPlatformPromise(platformName)
       //DEBUG
-      console.log(`\tfetching promise for ${c}`)
+      console.log(`\tfetching promise for ${platformName}`)
       platformsPromiseArr.push(platformPromise.sendMessage(user, message))
     })
     //DEBUG
