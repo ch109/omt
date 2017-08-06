@@ -1,0 +1,58 @@
+<div class="center">
+  <h4>Twitter</h4>
+</div>
+<!-- tw loop -->
+<% if(tw) { %>
+  <% tw.forEach(tweet => { %>
+    <!-- <div class="row"> -->
+      <!-- <div class="grid-item"> -->
+      <!-- <div class="col m1 l1"></div> -->
+      <!-- <div class="col s12 m10 l10"> -->
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Twitter&mdash;<%= tweet.post.created_at %></span>
+            <div class="section">
+              <p>Tweet: <%= tweet.post.text %></p>
+              <% if(tweet.post.in_reply_to_screen_name==null) { %>
+                <p>Postet in user timeline.</p>
+              <% } else { %>
+                <p>As reply to: @<%= tweet.post.in_reply_to_screen_name %></p>
+              <% } %>
+              <% if(tweet.post.entities.user_mentions.length>0) { %>
+                <p>Origin:</p>
+                <% tweet.post.entities.user_mentions.forEach(m => { %>
+                  <p>Username: @<%= m.screen_name %>, Name: <%= m.name %></p>
+                <% }) %>
+              <% } %>
+            </div>
+          </div>
+          <% if(tweet.reply) { %>
+            <div class="card-content grey lighten-4">
+              <span class="card-title">Replies</span>
+              <% tweet.reply.forEach((comm, i) => { %>
+                <% if(i > 0) { %>
+                  <div class="divider"></div>
+                <% } %>
+                <div class="section">
+                  <p>Message: <%= comm.text %></p>
+                  <p>From: <%= comm.user.name %>, @<%= comm.user.screen_name %></p>
+                  <p>As reply to: <%= comm.in_reply_to_screen_name %></p>
+                  <p>Date: <%= comm.created_at %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+
+          <div class="card-action">
+            <a href="#">Answer</a>
+            <a href="#">Retweet</a>
+            <a href="#">Like</a>
+            <a href="#">Redirect</a>
+          </div>
+        </div>
+      <!-- </div> -->
+      <!-- <div class="col m1 l1"></div> -->
+      <!-- </div> -->
+    <!-- </div> -->
+  <% }) %><!-- tw.forEach -->
+<% } %><!-- if(tw) -->

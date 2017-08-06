@@ -5,6 +5,7 @@
 // Dashboard
 const dashboardReceiver = require('./worker/recall/receiver')
 const getActivePlatforms = require('./worker/info/user-platforms')
+const getGridObj = require('./worker/info/dashboard-grid')
 // Broadcast
 const broadcastController = require('./worker/send/controller')
 
@@ -70,24 +71,37 @@ module.exports = (app, passport) => {
   app.get(
     '/feeds',
     isLoggedIn,
-    (req, res) => {     
+    (req, res) => {  
+
+      // TEST
+      // const platforms_test = 
+      //   ["facebook","twitter","googlep"]      
+      // const gridObj = getGridObj(platforms_test)
+      
+      const gridObj = getGridObj(getActivePlatforms(req.user))
+      
+      // DEBUG
+      // console.log(`gridObj = ${JSON.stringify(gridObj)}`)        
+      
       // init promise
       const dashboardPromise =
         dashboardReceiver.receive(req.user)
       // call promise
-      dashboardPromise.then(fulfilled => {
+      dashboardPromise.then(fulfilled => {        
         // DEBUG
-        // console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)        
+        console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)        
         res.render(
-          'feeds.ejs',
+          'dashboard.ejs',
           {
-            user: req.user,
+            
+            grid: gridObj,
             title: 'Dashboard',
             nav: 'feeds',
             locked: false,
 
             fb: fulfilled.hasOwnProperty('fb') ? fulfilled.fb.facebook_feed : undefined,
-            tw: fulfilled.hasOwnProperty('tw') ? fulfilled.tw.twitter_feed : undefined
+            tw: fulfilled.hasOwnProperty('tw') ? fulfilled.tw.twitter_feed : undefined,
+            gp: fulfilled.hasOwnProperty('gp') ? fulfilled.gp : undefined
           }
         )      
       }).catch(
@@ -246,7 +260,7 @@ module.exports = (app, passport) => {
      '/auth/google',
      passport.authenticate(
        'google',
-       { scope : ['profile', 'email'] }
+       { accessType: 'offline', approval_prompt: 'force', scope : ['profile', 'email', 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.me'] }
      ))
    // callback after authentication
    app.get(
@@ -401,6 +415,7 @@ module.exports = (app, passport) => {
       (req, res) => {
         const user = req.user
         user.google.token = undefined
+        user.google.refreshToken = undefined
         user.save((err) => res.redirect('/profile'))
       })
 }

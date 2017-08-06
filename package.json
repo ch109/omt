@@ -17,6 +17,7 @@
     "express": "4.15.3",
     "express-session": "1.15.4",
     "fb": "2.0.0",
+    "googleapis": "20.1.0",
     "mongoose": "4.11.3",
     "morgan": "1.8.2",
     "node-sass": "4.5.3",

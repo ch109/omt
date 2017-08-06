@@ -23,7 +23,7 @@ const app = express()
 /*
  * Configuration
  */
-require('./config/passport')(passport)
+require('./config/passport/controller')(passport)
 const configDB = require('./config/database')
 mongoose.connect(configDB.database)
 

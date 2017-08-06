@@ -1,0 +1,24 @@
+<div class="center">
+  <h4>Google+</h4>
+</div>
+<!-- gp loop -->
+<% if(gp) { %>
+  
+  <!-- DEBUG -->
+      <div class="card purple darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Debug: gp obj</span>
+          <code><%= JSON.stringify(gp) %></code>
+        </div>
+      </div>
+ 
+<% } else { %>
+  
+  <div class="card red darken-1">
+    <div class="card-content white-text">
+      <span class="card-title">Debug: gp obj</span>
+      <code>nothing here</code>
+    </div>
+  </div>    
+    
+<% } %><!-- if(gp) -->

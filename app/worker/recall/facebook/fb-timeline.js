@@ -14,7 +14,7 @@ module.exports.getTimeline = (user, count) => {
     // NOTE:
     //  Fb.api() already is a promise.
     //  GET queries: '/{user-id}/feed', '/{user-id}/posts'
-    (user, count) => Fb.api(
+    count => Fb.api(
       user.facebook.id, { fields: `feed.limit(${count})` }
     )
 
@@ -23,15 +23,15 @@ module.exports.getTimeline = (user, count) => {
    */
   const feedGrabData = (feed) => {
     if(!feed.feed.data) console.error(
-      `GET fb feed REJECT: Requested data \'feed.feed.data\' is missing.`)
+      `GET fb feed ERROR: Requested data \'feed.feed.data\' is missing.`)
     else return feed.feed.data
   }
 
   /*
    * Call definition
    */
-  const feed = (user, count) =>
-    feedOfPosts(user, count)
+  const feed = count =>
+    feedOfPosts(count)
       .then(
         fulfilled =>
           Promise.resolve(
@@ -42,6 +42,6 @@ module.exports.getTimeline = (user, count) => {
   /*
    * Call
    */
-  return feed(user, count)
+  return feed(count)
 
 }

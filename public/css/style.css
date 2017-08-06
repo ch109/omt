@@ -15,7 +15,7 @@
   color: #ff8f00;
 }
 
-/* --- feeds.ejs --- */
+/* --- feeds.ejs/dashboard.ejs --- */
 /* Loader: */
 .preloader-background {
 	display: flex;
@@ -39,6 +39,7 @@
 }
 .feeds-container {
   /*margin-left: 40px;*/
-  margin-left: 5%;
+  margin-left: 3%;
+  margin-right: 3%;
 }
 /*.grid-item--width2 { width: 800px; }*/
