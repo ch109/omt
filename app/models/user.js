@@ -19,7 +19,6 @@ const userSchema = mongoose.Schema(
        token: { type: String },
        email: { type: String },
        name: { type: String },
-       // posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
      },
      twitter: {
        id: { type: String },
@@ -27,11 +26,11 @@ const userSchema = mongoose.Schema(
        tokenSecret: { type: String },
        displayName: { type: String },
        username: { type: String },
-      //  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
      },
      google: {
        id: { type: String },
        token: { type: String },
+       refreshToken: { type: String },
        email: { type: String },
        name: { type: String }
      }

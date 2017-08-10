@@ -1,4 +1,4 @@
-// NOTE: usable for all feeds
+// NOTE: usable for facebook and twitter feeds
 
 const getRootArr = (feedObj, keyName) => {
     let result = []

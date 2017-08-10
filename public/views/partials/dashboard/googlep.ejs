@@ -1,0 +1,90 @@
+<div class="center">
+  <h4 style="color: #EF5350;">Google+</h4>
+</div>
+<!-- gp loop -->
+<% if(gp) { %>
+
+  <% for(let i=0; i<Object.keys(gp).length; i++) { %>
+    <div class="card">
+      <div class="card-content">
+        <% if(gp[i].shared) { %>
+          <span class="card-title">Shared content &mdash; <%= gp[i].shared.date_time %></span>
+          <div class="section">
+            <% if(gp[i].shared.note) { %>
+              <p>Your message: <%= gp[i].shared.note %></p>
+              <div class="divider"></div>
+            <% } %>
+            <% if(gp[i].shared.from) { %>
+              <p>Original posted from: <%= gp[i].shared.from %></p>
+            <% } %>
+            <% if(gp[i].shared.title&&gp[i].shared.title!=='') { %>
+              <p>Title: <%= gp[i].shared.title %></p>
+            <% } %>
+            <% if(gp[i].shared.photo) { %>
+              <div class="divider"></div>
+              <p> Photo:<br/>                
+              <img style="width: 100%;" src='<%= gp[i].shared.photo.img_url %>'>
+            <% } %>      
+            <% if(gp[i].shared.article) { %>
+              <div class="divider"></div>
+              <p> Article:<br/>                
+              <%= gp[i].shared.article.description %></p>
+              <img style="width: 100%;" src='<%= gp[i].shared.article.img_url %>'>
+            <% } %>
+            <% if(gp[i].shared.video) { %>
+              <div class="divider"></div>
+              <p> Video:<br/>                
+              <%= gp[i].shared.video.description %></p>
+              <div class="youtube-player" data-id='<%= gp[i].shared.video.video_id %>'></div>
+            <% } %>
+          </div>
+        <% } %>
+        <% if(gp[i].post) { %>
+          <span class="card-title">Post &mdash; <%= gp[i].post.date_time %></span>
+          <div class="section">
+            <p>Posted at: <%= gp[i].post.date_time %></p>
+            <p>Your message: <%= gp[i].post.note %></p>
+          </div>
+        <% } %>
+      </div>
+      <% if(gp[i].comments) { %>                
+        <div class="card-content grey lighten-4">
+          <span class="card-title">Comments</span>
+          <% for(let j=0; j<Object.keys(gp[i].comments).length; j++) { %>
+            <% if(j > 0) { %>
+              <div class="divider"></div>
+            <% } %>
+            <% if(gp[i].comments[j].post) { %>
+              <div class="section">
+                <p>Posted at: <%= gp[i].comments[j].post.date_time %></p>
+                <p>Message: <%= gp[i].comments[j].post.note %></p>
+              </div>
+            <% } %>
+            <% if(gp[i].comments[j].shared) { %>
+              <p>Sorry. This kind of content is currently not suported.</p>
+            <% } %>
+          <% } %><!-- for comments -->
+        </div><!-- card content -->
+      <% } %><!-- if comments -->
+    </div><!-- card -->
+  <% } %><!-- for -->
+  
+  
+  <!-- DEBUG -->
+    <!-- <div class="card purple darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">Debug: gp obj</span>
+        <code><%= JSON.stringify(gp) %></code>
+      </div>
+    </div> -->
+ 
+<% } else { %>
+  
+  <div class="card red darken-1">
+    <div class="card-content white-text">
+      <span class="card-title">ERROR</span>
+      <code>Nothing here.</code>
+    </div>
+  </div>    
+    
+<% } %><!-- if(gp) -->

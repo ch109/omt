@@ -4,6 +4,9 @@ const fbParser = require('./facebook/fb-parser')
 const twTimeline = require('./twitter/tw-timeline')
 const twComments = require('./twitter/tw-comments')
 const twParser = require('./twitter/tw-parser')
+const gpActivities = require('./googlep/gp-activities')
+const gpComments = require('./googlep/gp-comments')
+const gpMerger = require('./googlep/gp-merger')
 
 const getActivePlatforms = require('../info/user-platforms')
 
@@ -28,6 +31,13 @@ module.exports.receive = user => {
          )
        return twPromise
      }
+     if(platformName==='googlep') {
+       const gpPromise = gpActivities.getActivities(user, 5)
+         .then(fulfilled =>        
+           gpComments.getComments(user, fulfilled.googlep_feed)
+         )
+       return gpPromise
+     }
    }
    
    /*
@@ -40,11 +50,11 @@ module.exports.receive = user => {
          platformParserObj.fb = fbParser(fullfilled)
        if(platformName==='twitter') 
          platformParserObj.tw = twParser(fullfilled)
-       // if(platformName==='googlep') 
-       //   platformParserObj.gp = gpParser(fullfilled)       
+       if(platformName==='googlep') 
+         platformParserObj.gp = gpMerger.merge(fullfilled)     
      })
      // DEBUG
-     console.log(`platformParserObj = ${JSON.stringify(platformParserObj)}`)
+    //  console.log(`platformParserObj = ${JSON.stringify(platformParserObj)}`)
      return platformParserObj
    }
    
@@ -52,7 +62,8 @@ module.exports.receive = user => {
    * Call
    */   
   const platformsArr = getActivePlatforms(user)
-  console.log(`platformsArr = ${platformsArr}`)
+  // DEBUG
+  // console.log(`platformsArr = ${platformsArr}`)
   if(platformsArr.length<=0) 
     return Promise.resolve({ success: false, flash: 'no platforms specified' })
   else if(platformsArr.length===1) {
@@ -60,9 +71,8 @@ module.exports.receive = user => {
      const platformPromise = getPlatformPromise(platformName)
      return platformPromise.then(fullfilled => {
        // DEBUG
-       console.log(`platformsArr.length===1\n
-         fullfilled = ${JSON.stringify(fullfilled)}`)
-       // TODO: ERROR in parser
+      //  console.log(`platformsArr.length===1\n
+      //    fullfilled = ${JSON.stringify(fullfilled)}`)
        const templateDataObj = getPlatformParserObj(platformsArr, fullfilled)      
        return templateDataObj
      })
@@ -72,27 +82,26 @@ module.exports.receive = user => {
     platformsArr.forEach(c => {
       // DEBUG
       // console.log(`searching promise for ${c}`)
-      // console.log(`getPlatformPromise(c) = ${getPlatformPromise(c)}`)
-      
       if(getPlatformPromise(c)!==undefined)
+        // DEBUG
+        // console.log(`pushing promise for ${c} in promiseArr`)
         promiseArr.push(getPlatformPromise(c))
     })
     // DEBUG
-    // console.log(`promiseArr = ${promiseArr}`)
-    // console.log(`promiseArr.length = ${promiseArr.length}`)
-    
+    // console.log(`promiseArr.length = ${promiseArr.length}`)  
     return Promise.all(promiseArr).then(
       fulfilled_all => { 
         // DEBUG
-        console.log(`platformsArr.length>1\n
-          fulfilled_all = ${JSON.stringify(fulfilled_all)}`)
+        // console.log(`platformsArr.length>1\n
+          // fulfilled_all = ${JSON.stringify(fulfilled_all)}`)
         const templateDataObj = getPlatformParserObj(platformsArr, fulfilled_all)      
         return templateDataObj
       }
-    )       
-  } else return Promise.resolve({success: false, flash: 'something went south'})
+    ).catch(err => console.error(err))    
+  } else console.error(`recall-receiver: unknown error`)
   
-   
+  // // DEPRECATED: 
+  // 
   //  return Promise.all(
   //    [
   //      fbPromise, 
@@ -105,5 +114,4 @@ module.exports.receive = user => {
   //      tw: twParser(fulfilled_allFeeds)
   //    }
   //  })
-
 }

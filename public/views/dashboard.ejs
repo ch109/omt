@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <%- include('partials/header') %>
+</head>
+<style media="screen">
+  .emoji {
+    border: 0;
+    width: 18px;
+    height: 18px;
+    margin-bottom: -2px;
+  }
+</style>
+<style>
+    .youtube-player {
+        position: relative;
+        padding-bottom: 56.23%;
+        /* Use 75% for 4:3 videos */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000;
+        margin: 5px;
+    }
+    
+    .youtube-player iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background: transparent;
+    }
+    
+    .youtube-player img {
+        bottom: 0;
+        display: block;
+        left: 0;
+        margin: auto;
+        max-width: 100%;
+        width: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        border: none;
+        height: auto;
+        cursor: pointer;
+        -webkit-transition: .4s all;
+        -moz-transition: .4s all;
+        transition: .4s all;
+    }
+    
+    .youtube-player img:hover {
+        -webkit-filter: brightness(75%);
+    }
+    
+    .youtube-player .play {
+        height: 72px;
+        width: 72px;
+        left: 50%;
+        top: 50%;
+        margin-left: -36px;
+        margin-top: -36px;
+        position: absolute;
+        background: url("//i.imgur.com/TxzC70f.png") no-repeat;
+        cursor: pointer;
+    }
+</style>
+<body>
+
+  <!-- Nav Bar -->
+  <%- include('partials/navbar') %>
+
+  <!-- LOADER -->
+  <div class="preloader-background">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="section" id="index-banner">
+    <div style="margin-left:3%">      
+    <header>
+      <h5 class="header orange-text">Dashboard</h5>
+    </header>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="feeds-container">
+
+    <div class="section">
+      
+      <% if(grid) { %>
+      
+        <% if(grid.total===0) { %>
+          <div class="row">
+            <div class="center">
+              <div class="card-panel red accent-3">
+                <p>No platforms connected.</p>
+              </div>
+            </div>
+          </div>
+        <% } else { %>
+          
+          <% for(let i=0; i<grid.rows.number; i++) { %>
+            <div class="row">
+              <% for(let j=0; j<grid.rows.columns; j++) { %>
+                
+                <% if(grid.rows.columns===4) { %>
+                  <div class="col s12 m6 l4 xl3" style="padding-right:2px;">
+                    <p class="purple lighten-3">
+                      <%= grid.rows[i+1][j] %>
+                    </p>                    
+                  </div>
+                <% } %>
+                <% if(grid.rows.columns===3) { %>
+                  <div class="col s12 m6 l4 xl4" style="padding-right:2px;">
+                    <%# if(grid.rows[i+1][j]!=='googlep') { %> <!-- TODO: delete if googlep is implemented -->
+                      <%- include('partials/dashboard/'+grid.rows[i+1][j]) %>
+                    <%# } %>
+                  </div>
+                <% } %>
+                          
+              <% } %>
+            </div>
+          <% } %>
+          <% if(grid.tailRow.number!==0) { %>
+            <div class="row">
+              <% for(let j=0; j<grid.tailRow.columns; j++) { %>
+                
+                <% if(grid.rows.columns===4) { %>
+                  <div class="col s12 m6 l4 xl3" style="padding-right:2px;">
+                    <p class="purple lighten-3">
+                      <%= grid.tailRow["1"][j] %>
+                    </p>
+                  </div>
+                <% } %>
+                <% if(grid.rows.columns===3) { %>
+                  <div class="col s12 m6 l4 xl4" style="padding-right:2px;">
+                    <p class="purple lighten-3">
+                      <%= grid.tailRow["1"][j] %>
+                    </p>
+                  </div>
+                <% } %>
+                          
+              <% } %>
+            </div>
+          <% } %>
+          
+        <% } %>
+
+         
+      <% } else { %>
+        <div class="row">
+          <div class="center">
+            <div class="card-panel red accent-3">
+              <p>Unknown error.</p>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    
+      <!-- DEBUG start -->
+      <!-- <div class="row">
+        <div class="col m1 l1"></div>
+        <div class="col s12 m10 l10">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Debug: grid</span>
+              <code><%#= JSON.stringify(grid) %></code>
+            </div>
+          </div>
+        </div>
+        <div class="col m1 l1"></div>
+      </div> -->
+      <!-- DEBUG end -->  
+    
+  </div><!-- section -->
+</div><!-- feeds-container -->
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- LOADER -->
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function(){
+    	$('.preloader-background')
+        .delay(1700).fadeOut('slow');
+    	$('.preloader-wrapper')
+    		.delay(1700).fadeOut();
+    });
+  </script>
+
+  <!-- TWEMOJI (display emoticons) -->
+  <script src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.3.0"></script>
+  <script>
+    twemoji.parse(document.body);
+  </script>
+  
+  <script type="text/javascript">
+  /* Light YouTube Embeds by @labnol */
+  /* Web: http://labnol.org/?p=27941 */
+
+  document.addEventListener("DOMContentLoaded",
+      function() {
+          var div, n,
+              v = document.getElementsByClassName("youtube-player");
+          for (n = 0; n < v.length; n++) {
+              div = document.createElement("div");
+              div.setAttribute("data-id", v[n].dataset.id);
+              div.innerHTML = labnolThumb(v[n].dataset.id);
+              div.onclick = labnolIframe;
+              v[n].appendChild(div);
+          }
+      });
+
+      function labnolThumb(id) {
+          var thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
+              play = '<div class="play"></div>';
+          return thumb.replace("ID", id) + play;
+      }
+
+      function labnolIframe() {
+          var iframe = document.createElement("iframe");
+          var embed = "https://www.youtube.com/embed/ID?autoplay=1";
+          iframe.setAttribute("src", embed.replace("ID", this.dataset.id));
+          iframe.setAttribute("frameborder", "0");
+          iframe.setAttribute("allowfullscreen", "1");
+          this.parentNode.replaceChild(iframe, this);
+      }
+  </script>
+
+</body>
+</html>

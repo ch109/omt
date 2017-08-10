@@ -10,10 +10,10 @@ module.exports.getComments = (user, postsArr) => {
   /*
    * Promise definitions
    */
-  const commentsOfPost = (pID) => Fb.api(
+  const commentsOfPost = pID => Fb.api(
     pID, { fields: 'comments' }
   )
-  const commentForEachPost = (pArr) => {
+  const commentForEachPost = pArr => {
     if(Array.isArray(pArr))
       return Promise.all(
         pArr.map(p => commentsOfPost(p.id))
@@ -31,7 +31,7 @@ module.exports.getComments = (user, postsArr) => {
   /*
    * Call definition
    */
-  const comms = (postsArr) =>
+  const comms = postsArr =>
     commentForEachPost(postsArr)
 
   /*

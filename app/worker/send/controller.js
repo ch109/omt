@@ -45,8 +45,9 @@ module.exports.distribute = (user, postBody) => {
   /*
    * Call
    */
-  if(postBody===undefined||postBody===null||postBody==={}) 
-    return Promise.resolve({ success: false, flash: 'post is empty' })
+  if(postBody===undefined||postBody===null||postBody==={})
+    console.error(`send-controller: post is empty`)
+    // return Promise.resolve({ success: false, flash: 'post is empty' })
   
   const platformsArr = getPlatformsArr(postBody)
   const message = getMessage(postBody)  
@@ -79,6 +80,7 @@ module.exports.distribute = (user, postBody) => {
     //DEBUG
     console.log(`\treturning all promises`)
     return Promise.all(platformsPromiseArr)
-  }    
-  return Promise.resolve({ success: false, flash: 'unknown error' })
+  }
+  console.error(`send-controller: unknown error`)    
+  // return Promise.resolve({ success: false, flash: 'unknown error' })
 }

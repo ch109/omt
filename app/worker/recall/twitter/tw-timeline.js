@@ -45,4 +45,5 @@ module.exports.getTimeline = (user, count) => {
    * Call
    */
   return feed(user, count)
+  
 }

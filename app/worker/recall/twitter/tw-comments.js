@@ -18,7 +18,7 @@ module.exports.getComments = (user, postsArr) => {
    * Promise definition
    */
   const statusesMentionsTimeline =
-   (pArr) => new Promise(
+    pArr => new Promise(
       (resolve, reject) => {
         T.get(
           'statuses/mentions_timeline',
@@ -33,7 +33,7 @@ module.exports.getComments = (user, postsArr) => {
   /*
    * Call definition
    */
-  const comms = (postsArr) =>
+  const comms = postsArr =>
     statusesMentionsTimeline(postsArr)
 
   /*

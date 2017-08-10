@@ -1,0 +1,51 @@
+<div class="center">
+  <h4 style="color: #1E88E5;">Facebook</h4>
+</div>
+<!-- fb loop -->
+<% if(fb) { %>
+  <% fb.forEach(post => { %>
+    
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Facebook&mdash;<%= post.created_time %></span>
+            <div class="section">
+              <% if(post.message) { %>
+                <p>Message: <%= post.message %></p>
+              <% } %>
+              <% if(post.story) { %>
+                <p>Story: <%= post.story %></p>
+              <% } %>
+            </div>
+          </div>
+          <% if(post.comments) { %>
+            <div class="card-content grey lighten-4">
+              <span class="card-title">Comments</span>
+              <% post.comments.data.forEach((comm, i) => { %>
+                <% if(i > 0) { %>
+                  <div class="divider"></div>
+                <% } %>
+                <div class="section">
+                <p>Message: <%= comm.message %></p>
+                <p>From: <%= comm.from.name %></p>
+                <p>Date: <%= comm.created_time %></p>
+                </div>
+              <% }) %>
+            </div>
+          <% } %>
+          <div class="card-action">
+            <a href="#">Comment</a>
+            <a href="#">Share</a>
+            <a href="#">Like</a>
+            <a href="#">Redirect</a>
+          </div>
+        </div>
+
+  <% }) %><!-- fb.forEach -->
+<% } else { %>  
+  <div class="card red darken-1">
+    <div class="card-content white-text">
+      <span class="card-title">ERROR</span>
+      <code>Nothing here.</code>
+    </div>
+  </div> 
+<% } %><!-- if(fb) -->
