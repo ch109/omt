@@ -54,7 +54,7 @@ module.exports.receive = user => {
          platformParserObj.gp = gpMerger.merge(fullfilled)     
      })
      // DEBUG
-     console.log(`platformParserObj = ${JSON.stringify(platformParserObj)}`)
+    //  console.log(`platformParserObj = ${JSON.stringify(platformParserObj)}`)
      return platformParserObj
    }
    
@@ -63,7 +63,7 @@ module.exports.receive = user => {
    */   
   const platformsArr = getActivePlatforms(user)
   // DEBUG
-  console.log(`platformsArr = ${platformsArr}`)
+  // console.log(`platformsArr = ${platformsArr}`)
   if(platformsArr.length<=0) 
     return Promise.resolve({ success: false, flash: 'no platforms specified' })
   else if(platformsArr.length===1) {
@@ -81,19 +81,19 @@ module.exports.receive = user => {
     let promiseArr = []
     platformsArr.forEach(c => {
       // DEBUG
-      console.log(`searching promise for ${c}`)
+      // console.log(`searching promise for ${c}`)
       if(getPlatformPromise(c)!==undefined)
         // DEBUG
-        console.log(`pushing promise for ${c} in promiseArr`)
+        // console.log(`pushing promise for ${c} in promiseArr`)
         promiseArr.push(getPlatformPromise(c))
     })
     // DEBUG
-    console.log(`promiseArr.length = ${promiseArr.length}`)  
+    // console.log(`promiseArr.length = ${promiseArr.length}`)  
     return Promise.all(promiseArr).then(
       fulfilled_all => { 
         // DEBUG
-        console.log(`platformsArr.length>1\n
-          fulfilled_all = ${JSON.stringify(fulfilled_all)}`)
+        // console.log(`platformsArr.length>1\n
+          // fulfilled_all = ${JSON.stringify(fulfilled_all)}`)
         const templateDataObj = getPlatformParserObj(platformsArr, fulfilled_all)      
         return templateDataObj
       }

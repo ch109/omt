@@ -49,8 +49,6 @@ module.exports = (app, passport) => {
 /*
  * Protected site sections
  */
-// TODO:
-//  - "user: req.user" is not neccessary for every page
 
   //// profile
   app.get(
@@ -63,41 +61,28 @@ module.exports = (app, passport) => {
         user: req.user,
         title: 'Profile Page',
         nav: 'profile',
-        locked: false
       }
     ))
 
   //// dashboard
   app.get(
-    '/feeds',
+    '/dashboard',
     isLoggedIn,
     (req, res) => {  
-
-      // TEST
-      // const platforms_test = 
-      //   ["facebook","twitter","googlep"]      
-      // const gridObj = getGridObj(platforms_test)
-      
-      const gridObj = getGridObj(getActivePlatforms(req.user))
-      
-      // DEBUG
-      // console.log(`gridObj = ${JSON.stringify(gridObj)}`)        
-      
+      const gridObj = getGridObj(getActivePlatforms(req.user))     
       // init promise
       const dashboardPromise =
         dashboardReceiver.receive(req.user)
       // call promise
       dashboardPromise.then(fulfilled => {        
         // DEBUG
-        console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)        
+        // console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)        
         res.render(
           'dashboard.ejs',
-          {
-            
+          {      
             grid: gridObj,
             title: 'Dashboard',
-            nav: 'feeds',
-            locked: false,
+            nav: 'dash',
 
             fb: fulfilled.hasOwnProperty('fb') ? fulfilled.fb.facebook_feed : undefined,
             tw: fulfilled.hasOwnProperty('tw') ? fulfilled.tw.twitter_feed : undefined,
@@ -117,11 +102,9 @@ module.exports = (app, passport) => {
     (req, res) => res.render(
       'broadcast.ejs',
       {
-        // user: req.user,
         platforms: getActivePlatforms(req.user),
         title: 'Make a broadcast',
         nav: 'broadcast',
-        locked: false,
         message_info: req.flash('info-msg-send'),
         message_error: req.flash('info-msg-error')
       }
@@ -139,12 +122,11 @@ module.exports = (app, passport) => {
       // call promise  
       broadcastPromise.then(fulfilled => {
         //DEBUG
-        console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)
+        // console.log(`fulfilled = ${JSON.stringify(fulfilled)}`)
         // TODO: interpret fulfilled-obj
         req.flash('info-msg-send', 'Success!')
         res.redirect('/broadcast')
       }).catch(err => {
-        //DEBUG
         console.error(err)
         req.flash('info-msg-send', 'There was an error.')
         res.redirect('/broadcast')
@@ -260,7 +242,16 @@ module.exports = (app, passport) => {
      '/auth/google',
      passport.authenticate(
        'google',
-       { accessType: 'offline', approval_prompt: 'force', scope : ['profile', 'email', 'https://www.googleapis.com/auth/plus.login', 'https://www.googleapis.com/auth/plus.me'] }
+       { 
+         accessType: 'offline', 
+         approval_prompt: 'force', 
+         scope : [
+           'profile', 
+           'email', 
+           'https://www.googleapis.com/auth/plus.login', 
+           'https://www.googleapis.com/auth/plus.me'
+         ] 
+       }
      ))
    // callback after authentication
    app.get(

@@ -1,5 +1,5 @@
 <div class="center">
-  <h4>Twitter</h4>
+  <h4 style="color: #29b6f6;">Twitter</h4>
 </div>
 <!-- tw loop -->
 <% if(tw) { %>
@@ -55,4 +55,12 @@
       <!-- </div> -->
     <!-- </div> -->
   <% }) %><!-- tw.forEach -->
+<% } else { %>
+  
+  <div class="card red darken-1">
+    <div class="card-content white-text">
+      <span class="card-title">ERROR</span>
+      <code>Nothing here.</code>
+    </div>
+  </div> 
 <% } %><!-- if(tw) -->

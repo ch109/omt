@@ -1,5 +1,5 @@
 {
-  "name": "social_hub",
+  "name": "omt",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

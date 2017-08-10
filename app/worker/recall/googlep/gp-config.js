@@ -7,7 +7,7 @@ const configAuth = require('../../../../config/auth')
 
 module.exports.getOauth2Client = user => {
   /*
-   * G+ Module configuration
+   * Google+ Module configuration
    */
   const oauth2Client = new OAuth2(
     configAuth.googleAuth.clientID,

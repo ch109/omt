@@ -5,13 +5,12 @@
       OMT
     </span>
     <!-- Desktop View -->
-    <% if(locked) {} %> <!-- TODO: locked should be deleted from routes.js -->
       <ul class="right hide-on-med-and-down">
       <!-- Dashboard -->
-      <% if(nav=='feeds') { %>
+      <% if(nav=='dash') { %>
         <li><a class="active">Dashboard</a></li>
       <% } else { %>
-        <li><a href="/feeds">Dashboard</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
       <% } %>
       <!-- Broadcast -->
       <% if(nav=='broadcast') { %>
@@ -29,27 +28,25 @@
     </ul>
     <!-- Mobile View -->
     <ul id="nav-mobile" class="side-nav">
-      <% if(locked) { %>
-        <li><a class="red-text text-accent-3"><i class="material-icons red-text text-accent-3">report_problem</i>&emsp;Please log in first.</a></li>
-        <li><a class="grey-text text-lighten-1">Dashboard</a></li>
-        <li><a class="grey-text text-lighten-1">Profile</a></li>
-        <li><a class="grey-text text-lighten-1">Logout</a></li>
+      <!-- Dashboard -->
+      <% if(nav=='dash') { %>
+        <li><a class="active">Dashboard</a></li>
       <% } else { %>
-        <!-- Dashboard -->
-        <% if(nav=='feeds') { %>
-          <li><a class="active">Dashboard</a></li>
-        <% } else { %>
-          <li><a href="/feeds">Dashboard</a></li>
-        <% } %>
-        <!-- Profile -->
-        <% if(nav=='profile') { %>
-          <li><a class="active">Profile</a></li>
-        <% } else { %>
-          <li><a href="/profile">Profile</a></li>
-        <% } %>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
       <% } %>
-
+      <!-- Broadcast -->
+      <% if(nav=='broadcast') { %>
+        <li><a class="active">Broadcast</a></li>
+      <% } else { %>
+        <li><a href="/broadcast">Broadcast</a></li>
+      <% } %>
+      <!-- Profile -->
+      <% if(nav=='profile') { %>
+        <li><a class="active">Profile</a></li>
+      <% } else { %>
+        <li><a href="/profile">Profile</a></li>
+      <% } %>
+      <li><a href="/logout">Logout</a></li>
     </ul>
     <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
   </div>
