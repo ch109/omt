@@ -119,16 +119,13 @@
                 
                 <% if(grid.rows.columns===4) { %>
                   <div class="col s12 m6 l4 xl3" style="padding-right:2px;">
-                    <p class="purple lighten-3">
-                      <%= grid.rows[i+1][j] %>
-                    </p>                    
+                    <%- include('partials/dashboard/'+grid.rows[i+1][j]) %>                   
                   </div>
                 <% } %>
-                <% if(grid.rows.columns===3) { %>
+                
+                <% if(grid.rows.columns<=3) { %>
                   <div class="col s12 m6 l4 xl4" style="padding-right:2px;">
-                    <%# if(grid.rows[i+1][j]!=='googlep') { %> <!-- TODO: delete if googlep is implemented -->
-                      <%- include('partials/dashboard/'+grid.rows[i+1][j]) %>
-                    <%# } %>
+                    <%- include('partials/dashboard/'+grid.rows[i+1][j]) %>
                   </div>
                 <% } %>
                           
@@ -141,16 +138,13 @@
                 
                 <% if(grid.rows.columns===4) { %>
                   <div class="col s12 m6 l4 xl3" style="padding-right:2px;">
-                    <p class="purple lighten-3">
-                      <%= grid.tailRow["1"][j] %>
-                    </p>
+                    <%- include('partials/dashboard/'+grid.tailRow["1"][j]) %>
                   </div>
                 <% } %>
+                
                 <% if(grid.rows.columns===3) { %>
                   <div class="col s12 m6 l4 xl4" style="padding-right:2px;">
-                    <p class="purple lighten-3">
-                      <%= grid.tailRow["1"][j] %>
-                    </p>
+                    <%- include('partials/dashboard/'+grid.tailRow["1"][j]) %>
                   </div>
                 <% } %>
                           
