@@ -30,7 +30,7 @@
 
   <!-- Nav Bar -->
   <%- include('partials/navbar') %>
-  
+
   <!-- Message: User has successfully sent broadcast -->
   <% if (message_info.length > 0) { %>
   <div class="row">
@@ -38,9 +38,8 @@
       <div class="col s12 m8">
         <div class="card-panel green accent-2">
           <p>
-            Your message:<br />
-            <%= message_info %><br />
-            has successfully been broadcasted.
+            <b><%= message_info %></b><br />
+            Your message has successfully been broadcasted.
           </p>
         </div>
       </div>
@@ -79,7 +78,7 @@
 
           <form action="/broadcast-send" method="post">
             <h5>Choose platforms</h5>
-            <!-- TODO: 
+            <!-- TODO:
                   - if no platform is checked disable send-button
             -->
             <div id="platform-checkboxes">
@@ -107,10 +106,10 @@
             <div id="quill-editor"></div>
             <div id="quill-char-counter">0 characters</div>
             <br />
-          <!-- NOTE: 
+          <!-- NOTE:
                   'pody-parser' does not handle multipart bodies!
                   Therefore the file upload feature is disabled for now.
-            
+
             <h5>Attach a file</h5>
             <div class="file-field input-field">
               <div class="btn">
@@ -183,37 +182,37 @@
 
     // Populate hidden form on submit
     var form = document.querySelector('form');
-    form.onsubmit = function() {    
+    form.onsubmit = function() {
       var msg = document.querySelector('input[name=editor]');
       msg.value = JSON.stringify(quill.getContents());
-    };    
+    };
   </script>
-  
+
   <script type="text/javascript">
     $(document).ready(function(){
-      
+
       $('div#platform-checkboxes').change(function() {
         var inputArr = [];
         $('div#platform-checkboxes').find('input')
           .each(function() {
             if($(this).prop('checked')) {
-              inputArr.push($(this));        
+              inputArr.push($(this));
             }
           });
         if(inputArr.length>0) {
-          if($('button.btn').hasClass('disabled')) {                
+          if($('button.btn').hasClass('disabled')) {
             $('button.btn').removeClass('disabled');
-          }          
+          }
         } else {
-          if(! $('button.btn').hasClass('disabled')) {                
+          if(! $('button.btn').hasClass('disabled')) {
             $('button.btn').addClass('disabled');
           }
         }
       });
-      
+
     });
-    
+
   </script>
-  
+
 </body>
 </html>
