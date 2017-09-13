@@ -15,3 +15,5 @@ The development process is built upon a use case based requirements analysis.
 Due to the realization of the web application, it is determined that use cases do have
 a positive impact on development. The result is the presentation of a functional prototype,
 which demonstrates that the idea is technically feasible.
+
+![alt text](./public/img/arbeitsweise_exp_cut.jpg)
