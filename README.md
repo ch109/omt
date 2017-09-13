@@ -16,4 +16,4 @@ Due to the realization of the web application, it is determined that use cases d
 a positive impact on development. The result is the presentation of a functional prototype,
 which demonstrates that the idea is technically feasible.
 
-![alt text](./public/img/arbeitsweise_exp_cut.jpg)
+![alt text](./public/img/arbeitsweise_small.jpg)
